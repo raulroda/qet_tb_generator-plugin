@@ -1,0 +1,24 @@
+app: qet_tb_generator
+
+ingredients:
+  dist: bionic
+  sources:
+    - deb http://archive.ubuntu.com/ubuntu/ bionic main universe
+  packages:
+    - python3-minimal
+    - python3-pip
+   script:
+    - python3 -m pip install --no-binary=qet_tb_generator
+
+script:
+  - cat > /usr/share/applications/PythonTurtle.desktop <<EOF
+  - [Desktop Entry]
+  - Version=1.0
+  - Type=Application
+  - Terminal=false
+  - Name=Python Turtle
+  - Exec=PythonTurtle %u
+  - Icon=/usr/local/lib/python3.6/dist-packages/PythonTurtle/resources/turtle.png
+  - Comment=Learning environment for Python
+  - Categories=Education;
+  - EOF

@@ -1,0 +1,118 @@
+# Changelog
+
+v1.2.0
+  * migrated to pysimplegui. 
+    - Allow efortless migrating from/to tkinter and Qt
+    - simplifies the GUI code
+    - has a Table power table element
+  * instead of creating tabs for every terminal block, now a list with all tb are
+    showed on the left. Allows better experience when exists a lot of them.
+  * Tooltip on the header
+  32 bit version
+  
+  POR PROBAR
+  - Remember to savethe project before using This pluging
+  - split terminals !!
+  - argumento en llamada y cuadro dialogo
+  - repasar documentación al pincipio de main.pysimplegui
+  - mostrar el archivo que se está editanto en la pantalla
+  - poner icono a la APP
+  - poner mi mail.
+
+v1.1.7
+  * Changed the pack method of checkboxes to allow more if there are a lot of terminal blocks.
+  
+v1.1.6
+  * Now right click works on MacOS.
+  * The last dev. 0.8 version of QET, removes the 'folioSheetQuantity' attribute. If not exists
+  the tag, assumes zero.
+  * A logging to console created for debugging purposes..
+
+v1.1.5
+  * If the terminal name has spaces, are trimmed.
+  * Now the terminal name could start by - or any other character. Before only letters are allowed.
+  * Changed the text in Help's tab
+
+V1.1.4
+  * Now for sort terminals, just left-click and right-click on the corresponding cell of POS. column
+  * For every terminal block, the number of terminals per page and the number of reservation terminals are configurable.
+  * Now is posible to select what terminal blocks to create/update. This prevent overwritting existing and connecter terminal blocks in the diagram.
+  * The UUID of the XML now is enclosured between {}
+  * The representation of the therminal block in the QET diagram:
+    - All the text are dynamics: allows edition.
+    - The cables connected at the bottom of the terminals have the same number that the top.
+    - The conductors of a hose are identified at the two sides with a tick mark.
+  * Removed the config tab, now every terminal block has its config.
+  * The source code has been splitted in a file for every class.
+
+v1.0.16
+  * No writes the cable name of the last terminal under certains conditions.
+
+v1.0.15: 
+  * When the last terminal of a terminal block had defined a cable with a single conductor, it was not drawn.
+  * Relocate the position of different labels because when they were long they left the area.
+  * Show a red message at bottom remembering save the QET diagram before use the plug-in.
+  * Add a text in the message box that appears after pressing "CREATE TERMINAL BLOCKS",
+    remmembering the reopen the project to see the terminal blocks generated.
+
+v1.0.14: Added a new column to specify bridges.
+    The 'location' and 'plant' labels catch its contents from the page they are, and not from the general QET diagram config.
+
+v1.0.12: Generating again an existing terminal block, duplicates the entry in the collection. Fixed.
+
+v1.0.8: This version is compatible with QET 0.7 version.
+
+v0.7.74: Included LICENSE.txt
+
+v0.7.5: Some terminal block element have mora than one text input, so now the script
+    search for all text inputs foe every element to find no once no empty.
+    
+v0.7.4: For terminal blocks with no implicit connections searching, you can specify
+    xref for only the terminal or xref for the connections.
+
+v0.7.2: New functionalities and bugs fixed
+  * NEW: For TB created using implicit connections searching, xref of connections are showed.
+    For not implicit connectios the xref for the terminal are showed.
+  * BUG: File dialog for 'QET user collection path' crash.
+  
+v0.6.4: Searches for explicit and implicit connectios to a terminal strip. Add functionality to specified pages range.
+
+v0.5.3:
+  * add to config file the type of reference type (by ID or by number)
+
+v0.5.0:
+  * Implements the GUI version
+
+v0.4.0: 
+  * New sort procedure created (sortTB) that consideres 5 types of data.
+    Terminals names like will be sorted as U1, V1, W1 y U2,V2,W2 instead of U1,U2,V1,V2, W1,W2
+
+v0.35: fix total width and height in xml definition and draw reservation terminals
+  * In First order terminals strings id ('-0,'+1',...) and later numeric values. Creates RESERVATION
+    terminals for no consecutive numeric terminals.
+  * Calc of total width and height are rounded to the next tenth.
+
+v0.3: add new functionalities and a GUI selection project
+  * GUI file dialog for select QET project. Save last path at 'recent.his'
+  * System defines the default QET collection path, but for portable instalations, can 
+    set by default at global constant QET_COLLECTION_PATH and is needed to type every time.
+  * Now can chose XRef forlio type. By ID (folio number) or by folio Name
+
+v0.2: add new functionalities and fix errors
+  * Autodect the path of QET collection dependig the OS. Ask when runs, but a default value is proposed
+  * Creates the collection temp directory for terminal blocks if not exist
+  * Saves recent files at 'recent.his' file for easy select lastest projects
+  * Now respect case. Be careful, now because X1 is different than x1
+  * The form of then name in collection for the terminal blocks created: Project X1(from-to)
+  * Fix xref calc. The top and side grid label has 25px with.
+
+v0.1: 
+  * Terminal elements must be 'terminal' as type in the Element Editor.
+  * If terminal elements has more than one textfield, the first one is considered.
+  * Name of terminals must be in form 'x:a'.  x = Terminal Block name; a = Terminal name.
+  * Creates a Block terminal for every diferents x value. If there ara more 'a' values
+    than the global variable TB_BLOCKS_IN_A_FOLIO, divide the block terminals in parts
+    to put in differents folios
+  * Sorts the 'a' values placing fierts alphanumeric, and later the numeric values.
+  * If there are consecutive terminals if samne number cables, draws a bridge between them.
+
