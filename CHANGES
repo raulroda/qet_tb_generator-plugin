@@ -1,23 +1,17 @@
 # Changelog
 
-v1.2.0
+v1.2.0d  (beta)
   * migrated to pysimplegui. 
-    - Allow efortless migrating from/to tkinter and Qt
-    - simplifies the GUI code
-    - has a Table power table element
   * instead of creating tabs for every terminal block, now a list with all tb are
     showed on the left. Allows better experience when exists a lot of them.
-  * Tooltip on the header
-  32 bit version
+  * Customisable aspect of the TerminalBlock
+  * Preselected the edited TB to create them
   
-  POR PROBAR
-  - Remember to savethe project before using This pluging
-  - split terminals !!
-  - argumento en llamada y cuadro dialogo
-  - repasar documentación al pincipio de main.pysimplegui
-  - mostrar el archivo que se está editanto en la pantalla
-  - poner icono a la APP
-  - poner mi mail.
+  To Do
+  * 32 bit version
+  * LOGOS lost in some cases
+  * In recents QET versions, the conductor name is not cached for the plug-in
+
 
 v1.1.7
   * Changed the pack method of checkboxes to allow more if there are a lot of terminal blocks.

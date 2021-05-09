@@ -77,7 +77,7 @@ class QETProject:
                     x.startswith('ns') or x.startswith('dc') or x.startswith('rdf')   ]  # delete duplicates, and filtar
             ns_def = ''
             for n in ns:
-                ns_str = 'xmlns:{}="{}"'.format(n, n)
+                ns_str = 'xmlns:{}='.format(n)
                 this_ns = re.findall( ns_str, xml )  # if found, no add ns definition again
                 if not this_ns:
                     ns_def += 'xmlns:{}="{}" '.format(n,n)
@@ -368,9 +368,14 @@ class QETProject:
                     el['block_name'] = terminalName.split(':')[0]
                     el['terminal_name'] = terminalName.split(':')[1]
                     el['terminal_xref'] = self._getXRef(diagram, element)
-                    el['cable'] = cableNum
-                    
-                    el['terminal_pos'] = [ meta_data['terminal_pos'], el['terminal_name'] ][meta_data['terminal_pos']=='']
+                    el['cable'] = cableNum             
+                    if meta_data['terminal_pos']=='':  #  convert to integer for more initial intelligent sorting
+                        try:
+                            el['terminal_pos'] = int(el['terminal_name']) 
+                        except:
+                            el['terminal_pos'] = el['terminal_name']
+                    else:
+                        el['terminal_pos'] = int(meta_data['terminal_pos'])
                     el['terminal_type'] = meta_data['terminal_type']
                     el['hose'] = meta_data['hose']
                     el['conductor'] = meta_data['conductor']

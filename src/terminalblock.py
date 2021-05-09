@@ -199,11 +199,11 @@ class TerminalBlock:
                     y=y_term_center - (self.TERMINAL_HEIGHT /2 ), \
                     width= self.TERMINAL_WIDTH, height= self.TERMINAL_HEIGHT)
             term_label = self._label_term(description, \
-                    x=x_term_center - (self.TERMINAL_FONT), \
+                    x=x_term_center, \
                     y=y_term_center + (self.TERMINAL_HEIGHT / 2) - TerminalBlock.Y_OFFSET_BASE_TEXT, \
                     text=trmnl['terminal_name'])
             term_xref_label = self._label_term_xref(description, \
-                    x=x_term_center - (self.TERMINAL_FONT), \
+                    x=x_term_center, \
                     y=y_term_center - TerminalBlock.Y_OFFSET_BASE_TEXT, \
                     text=trmnl['terminal_xref'])
             
@@ -258,16 +258,16 @@ class TerminalBlock:
                 south_cable_end_label = self._label_cond(description , \
                     x=x_term_center - self.CONDUCTOR_FONT - TerminalBlock.X_OFFSET_CABLE_TEXT, \
                     y=self.CONDUCTOR_LENGTH + self.TERMINAL_HEIGHT + self.HOSE_CONDUCTOR_START + \
-                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT), \
+                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT*1.5), \
                     text=trmnl['conductor']
                 )    
                 conductor_tick_end = self._line(description, \
                     x1=cursor + self.TERMINAL_WIDTH/2 - 2, \
                     x2=cursor + self.TERMINAL_WIDTH/2 + 2, \
                     y1=self.CONDUCTOR_LENGTH + self.TERMINAL_HEIGHT + self.HOSE_CONDUCTOR_START + \
-                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT)-10 -2, \
+                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT*1.5)-10 -2, \
                     y2=self.CONDUCTOR_LENGTH + self.TERMINAL_HEIGHT + self.HOSE_CONDUCTOR_START + \
-                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT)-10 +2
+                        self.HOSE_LENGTH + TerminalBlock.Y_OFFSET_BASE_TEXT + (max_hose_cond_name_length * self.CONDUCTOR_FONT*1.5)-10 +2
                 )
                 south_terminal = self._qet_term(description, cursor, y2, 's')
             
@@ -533,7 +533,7 @@ class TerminalBlock:
         @ param text: id of the terminal
         """
         size = self.TERMINAL_FONT
-        x1 = x + (self.HEAD_WIDTH / 2) - self.TERMINAL_WIDTH - size + 6
+        x1 = x - (size * 1.1)
         y1 = y + (y*0.10)
         label = etree.SubElement(father, 'dynamic_text', \
                 x=str(x1), \
@@ -559,11 +559,10 @@ class TerminalBlock:
         @ param text: id of the terminal
         """
         size = self.XREF_FONT
-        x1 = x + (self.HEAD_WIDTH / 2) - self.TERMINAL_WIDTH - size + 5
-        y1 = y - (y*0.10)
+        x1 = x - (size * 1.1)
         label = etree.SubElement(father, 'dynamic_text', \
                 x=str(x1), \
-                y=str(y1), \
+                y=str(y), \
                 z='3', \
                 text_from='UserText', \
                 uuid = '{' + uuidly.uuid1().urn[9:] + '}', \

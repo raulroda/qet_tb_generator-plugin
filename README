@@ -1,1 +1,128 @@
 Licensed under the General Public License 2.0
+
+
+Terminal Block Generator Plugin for Qelectrotech
+
+
+# ESTRUCTURA DE DIRECTORIOS
+
+- <bugs>: recopilación de capturas de pantalla documentos de bugs recogidos del foro Qelectrotech.
+- <dist>: versión autorgenerada para la instalación via pip3 y para version portable
+- <qet_tb_generator.egg-info>: metadatos para la generación de los ficheros de distribución.
+- <sample_projects>: esquemas eléctricos varios con los que hacer pruebas.
+- <scripts>: scripts varios para el desarrollo.
+- <src>: ficheros fuente.
+- <portables>: version portable de la aplicación
+- run.py: ejecución del programa
+
+
+
+# CREACION DE LOS EJECUTABLES
+
+De cada versión hay que generar:
+- Versión instalable via pip3
+- Versión portable para Windows
+- Versión portable para Linux
+
+
+
+## Creacion paquete con distutils
+
+https://www.digitalocean.com/community/tutorials/how-to-package-and-distribute-python-applications
+https://packaging.python.org/distributing/
+
+
+1. Entrar en el contenedor de forma interactiva: sh run_on_docker.sh /bin/bash
+2. Se requiere tener instalado setuptools y twine.
+    - sudo pip3 install setuptools
+    - sudo apt-get install twine
+3. Actualizar numero de version en setup.py y en main.py para caption del form.
+4. Actualizar el fichero CHANGES
+5. Ejecutar auto_dist.sh. El script hace:
+    Borrar contenido de las carpetas 'build' y 'dist'
+    actualizar CHANGES
+    Crear distibucion: python3 setup.py sdist
+    Crear wheel para pip: python3 setup.py bdist_wheel
+    Subirlo : twine upload dist/*
+6. Para comprobar si un paquete está instalado: 
+    pip3 list : muestra todos
+    pip3 show qet_tb_generator : muestra info de un paquete y donde esta instalado
+
+
+
+## Creación de versión portable para Windows
+Se crea usando pyinstaller.org
+1. Instalar python 3.6.8
+2. Instalar pyinstaller: python -m pip install PyInstaller
+3. Ejecutar: pyinstaller --onefile --windowed run.py
+4. Renombrar: run.exe a qet_tb_generator.exe
+5. Accesible desde https://download.tuxfamily.org/qet/builds/
+6. Enviar mail a laurent Trinques (scorpio@qelectrotech.org) adjuntando el portable
+
+
+## Creación de versión portable para Linux
+Se crea usando pyinstaller.org
+1. Entrar en el contenedor de forma interactiva: sh run_on_docker.sh /bin/bash
+2. Ejecutar: pyinstaller --onefile --windowed run.py
+3. Renombrar: mv ./dist/run ./dist/qet_tb_generator
+4. Accesible desde https://download.tuxfamily.org/qet/builds/
+
+
+
+# COMO INSTALAR EL PLUGIN
+
+
+## Via pip3
+Requires python 3.5 or above.
+
+>> First install on Linux (Debian based distros)
+1. In a terminalm install python3 and GUI library:
+    sudo apt-get install python3 python3-tk python3-pip
+2. Install the program: 
+    sudo pip3 install qet_tb_generator
+3. Launch the plugin from the 'Project' menu of QElectrotech.
+
+>> Update on Linux
+sudo python3 -m pip install --upgrade qet_tb_generator
+
+>> First install on Windows
+1. Install, if required, python 3.5 or above
+2. pip3 install qet_tb_generator
+
+>> Update on Windows
+python -m pip install --upgrade qet_tb_generator
+
+
+
+
+## Portable Linux
+
+Copy the plugin portable file to the same folder that the AppImage version of Qelectrotech:
+  1. Download the desired QET portable version from https://download.tuxfamily.org/qet/builds/AppImage/
+  2. Mark as executable (help here:  https://discourse.appimage.org/t/how-to … -appimage/).
+  3. Download the plugin portable file from https://download.tuxfamily.org/qet/buil … tor_linux/
+  4. Rename to "qet_tb_generator" if it has another file name.
+  5. Mark "qet_tb_generator" as executable too.
+  6. Copy to the same folder that the QET appimage is.
+  7. Launch the plugin from the "Project" menu of QET
+
+If you have some problem launche the plugin from QET, add the directory where the AppImage is to the PATH. Example if the directory is "/home/<your_user_name>/bin", edit the "~/.bashrc" file adding:
+     export PATH="/home/$USER/bin:$PATH"
+
+If you are not using the portable version of QET, copy the plugin portable file inside the folder where the executable QET file are. Remember mark as exexutable on Linux's.
+
+
+
+## Portable WINDOWS
+
+Copy the plugin portable file to the same readytouse folder of QET
+  1. Download the desired QET portable version from https://download.tuxfamily.org/qet/builds/nightly/
+  2. Uncompress
+  3. Download the plugin portable file from https://download.tuxfamily.org/qet/buil … rator_win/
+  4. Rename to "qet_tb_generator.exe" if it has another file name.
+  5. Copy "qet_tb_generator.exe" inside the descompressed folder of QET (point 2)
+  6. Launch the plugin from the "Project" menu of QET
+
+
+
+
