@@ -283,14 +283,12 @@ class TerminalBlock:
                 south_terminal = self._qet_term(description, x=cursor, \
                     y=2*self.CONDUCTOR_LENGTH + self.TERMINAL_HEIGHT , orientation='s')
 
-            # draw hose of conductors in the middle of all hose conductors
+            # draw horizontal line across all hose conductors when end of hose is detected
             y1 = self.CONDUCTOR_LENGTH + self.TERMINAL_HEIGHT + self.HOSE_CONDUCTOR_START
             y2 = y1 + self.HOSE_LENGTH
-            if ( (trmnl['hose'] != last_trmnl['hose']) \
-                        and (last_trmnl['hose'] != '') ) \
+            if ( (trmnl['hose'] != last_trmnl['hose']) and (last_trmnl['hose'] != '') ) \
                 or \
-               ( (last_trmnl['hose'] != '') \
-                        and (i == self.num_terminals - 1) ) : # change hose or last term.
+               ( (last_trmnl['hose'] != '') and (i == self.num_terminals - 1) ):  # hose change or the hose arrives to the last term
                     
                 x1 = last_cable_coord_x + (self.TERMINAL_WIDTH / 2)
                 x2 = cursor - (self.TERMINAL_WIDTH / 2)
@@ -305,23 +303,20 @@ class TerminalBlock:
                 ver_line = self._line(description, (x1+x2)/2, (x1+x2)/2, y1, y2)
                 ver_line_label = self._label_cond(description, \
                         (x1+x2)/2 - self.TERMINAL_WIDTH + 10, \
-                        y1 + ((y2-y1)/2) + len(last_trmnl['hose'])*3, \
+                        y1 + ((y2-y1)/2) + len(last_trmnl['hose'])*1.3, \
                         last_trmnl['hose'])
+                 
 
+            # Last terminal belongs to a individual hose
+            if ( (last_trmnl['hose'] == '') and trmnl['hose'] !='' and (i == self.num_terminals - 1) ):  
+                
+                x1 = cursor  + (self.TERMINAL_WIDTH / 2)
+                ver_line = self._line(description, x1, x1, y1, y2)
+                ver_line_label = self._label_cond(description, \
+                x1 - 10, \
+                y1 + ((y2-y1)/2) + len(trmnl['hose'])*1.3, \
+                trmnl['hose'])                   
 
-                # Extra line if last cable has only one conductor
-                if i == self.num_terminals-1:
-                    if (trmnl['hose'] != last_trmnl['hose']) \
-                       and \
-                       (trmnl['hose'] != ''):
-                        x1 = x1 + self.TERMINAL_WIDTH
-                        x2 = x2 + self.TERMINAL_WIDTH
-                        ver_line = self._line(description, x2, x2, y1, y2)
-                        ver_line_label = self._label_cond(description, \
-                        x2 - 10, \
-                        y1 + ((y2-y1)/2) + len(last_trmnl['hose'])*3, \
-                        trmnl['hose'])                   
-                        
                         
             # memo of x coord.
             if trmnl['hose'] != last_trmnl['hose']:
@@ -331,6 +326,8 @@ class TerminalBlock:
             # task at loop end
             cursor += self.TERMINAL_WIDTH
             last_trmnl = trmnl
+
+
 
         #~ etree.ElementTree(root).write('tmp.xml') #, pretty_print=True)
         return root

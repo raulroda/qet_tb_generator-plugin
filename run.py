@@ -125,7 +125,7 @@ edited_terminals = []  # to propose the terminal-blocks to create
 # CONSTANTS
 ALL = '-- ALL --'
 THEME = 'SystemDefaultForReal'  # pysimplegui
-VERSION = '1.2.0d'
+VERSION = '1.2.0f'
 FECHA = 'April, 2020'
 TITLE = 'QET Terminal Block Generator - v{}'.format(VERSION)
 STRIP_LONG = 30
@@ -499,6 +499,7 @@ def create_terminal_blocks(tb_list, max_tb_length, settings, qet_project):
 
     # Create the last TB
     current_tb_name = current_tb[0]['block_name']
+    tb_done.append( current_tb_name )
     create_a_TB(tb_name=current_tb[0]['block_name'], \
         tb=current_tb, \
         slice_num=tb_done.count( t['block_name'] ), \

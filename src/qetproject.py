@@ -25,6 +25,8 @@ import operator
 import re
 import xml.etree.ElementTree as etree  # python3-lxml
 from collections import OrderedDict
+import tempfile
+import os
 
 
 class QETProject:
@@ -69,24 +71,40 @@ class QETProject:
         # Defines namespaces if exists. When changes the project logo in QET appears ns
         # but are not defined in the head, like:  xmlns:ns0="ns0".
         # If namespaces are not defines, etree cannot parse the XML file.
+
+        
+        # with open(project_file, 'r' ,encoding='utf8') as f:
+        #     xml = f.read()
+        #     ns = re.findall( '[\s<]{1}(\w+):', xml )  # namesapaces
+        # if ns:
+        #     ns = [ x for x in dict.fromkeys(ns) if \
+        #             x.startswith('ns') or x.startswith('dc') or x.startswith('rdf')   ]  # delete duplicates, and filtar
+        #     ns_def = ''
+        #     for n in ns:
+        #         ns_str = 'xmlns:{}='.format(n)
+        #         this_ns = re.findall( ns_str, xml )  # if found, no add ns definition again
+        #         if not this_ns:
+        #             ns_def += 'xmlns:{}="{}" '.format(n,n)
+        #     if ns_def:
+        #         xml = re.sub('>', ' ' + ns_def + '>', xml, 1)  #replaces first ocurrence
+        #         with open(project_file, 'w' ,encoding='utf8') as f:
+        #             f.write(xml)
+        
+        # Creates a copy of original project because of the LOGO section usually has not defined namespaces
+        # and etree launches an error
+        regex_logos = '(<logos>[\s\S]+<\/logos>)'
         with open(project_file, 'r' ,encoding='utf8') as f:
             xml = f.read()
-            ns = re.findall( '[\s<]{1}(\w+):', xml )  # namesapaces
-        if ns:
-            ns = [ x for x in dict.fromkeys(ns) if \
-                    x.startswith('ns') or x.startswith('dc') or x.startswith('rdf')   ]  # delete duplicates, and filtar
-            ns_def = ''
-            for n in ns:
-                ns_str = 'xmlns:{}='.format(n)
-                this_ns = re.findall( ns_str, xml )  # if found, no add ns definition again
-                if not this_ns:
-                    ns_def += 'xmlns:{}="{}" '.format(n,n)
-            if ns_def:
-                xml = re.sub('>', ' ' + ns_def + '>', xml, 1)  #replaces first ocurrence
-                with open(project_file, 'w' ,encoding='utf8') as f:
-                    f.write(xml)
+            logo = re.findall( regex_logos, xml )  # namesapaces
+        if logo:
+            self.original_logo_section = logo
+            xml = re.sub(regex_logos, '<logos />', xml, 1)  #replaces first ocurrence
+        tmpf = tempfile.NamedTemporaryFile(mode='w', encoding='utf8', delete=False)
+        tmpf.write(xml)
+        log.info ("Generate temp file {}".format(tmpf.name))
 
-        self._qet_tree = etree.parse(project_file)
+        # starting...
+        self._qet_tree = etree.parse(tmpf.name)
         self.qet_project_file = project_file
         self.qet_project = self._qet_tree.getroot()
         
@@ -116,6 +134,11 @@ class QETProject:
 
         # finds all terminals. A list of dicts
         self._set_used_terminals()
+
+        #deleting temp file
+        tmpf.close()
+        os.unlink(tmpf.name)
+        log.info ("Deleted temp file {}".format(tmpf.name))
 
 
 
@@ -449,6 +472,15 @@ class QETProject:
 
     def save_tb(self, filename):
         self._qet_tree.write(filename)  #, pretty_print=True)
+
+        # replace temporal empty logo with the original
+        if self.original_logo_section:
+            with open(filename, 'r' ,encoding='utf8') as f:
+                xml = f.read()
+            new_xml = re.sub('<logos />', self.original_logo_section[0], xml, 1)  #replaces first ocurrence
+            with open(filename, 'w' ,encoding='utf8') as f:
+                f.write(new_xml)
+
 
 
     def insert_tb(self, name, tb_node):
