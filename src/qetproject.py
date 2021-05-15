@@ -206,6 +206,8 @@ class QETProject:
                 break
         
         ## Getting data
+        if meta is None:
+            meta = ''
         foo  = re.search(r'%p(\d+)(%|$)', meta)  # %p
         ret['terminal_pos'] = foo.group(1) if foo else ''
 
@@ -396,7 +398,7 @@ class QETProject:
                         try:
                             el['terminal_pos'] = int(el['terminal_name']) 
                         except:
-                            el['terminal_pos'] = el['terminal_name']
+                            el['terminal_pos'] = 1
                     else:
                         el['terminal_pos'] = int(meta_data['terminal_pos'])
                     el['terminal_type'] = meta_data['terminal_type']

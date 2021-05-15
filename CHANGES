@@ -1,17 +1,16 @@
 # Changelog
 
-v1.2.0d  (beta)
+ToDo: 32bitversion
+
+v1.2.2
   * migrated to pysimplegui. 
   * instead of creating tabs for every terminal block, now a list with all tb are
     showed on the left. Allows better experience when exists a lot of them.
   * Customisable aspect of the TerminalBlock
-  * Preselected the edited TB to create them
-  
-  To Do
-  * 32 bit version
-  * LOGOS lost in some cases
-  * In recents QET versions, the conductor name is not cached for the plug-in
-
+  * Fix the logo disapearing problem. When inserting a logo into the schema in QET,
+    sometimes the XML structure is not valid. Now, the plugin removes de <logo> selection
+    and restores later.
+  * Fix some bugs.
 
 v1.1.7
   * Changed the pack method of checkboxes to allow more if there are a lot of terminal blocks.

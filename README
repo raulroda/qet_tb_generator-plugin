@@ -4,6 +4,7 @@ Licensed under the General Public License 2.0
 Terminal Block Generator Plugin for Qelectrotech
 
 
+
 # ESTRUCTURA DE DIRECTORIOS
 
 - <bugs>: recopilación de capturas de pantalla documentos de bugs recogidos del foro Qelectrotech.
@@ -36,7 +37,7 @@ https://packaging.python.org/distributing/
 2. Se requiere tener instalado setuptools y twine.
     - sudo pip3 install setuptools
     - sudo apt-get install twine
-3. Actualizar numero de version en setup.py y en main.py para caption del form.
+3. Actualizar numero de version en setup.py y en run.py para caption del form.
 4. Actualizar el fichero CHANGES
 5. Ejecutar auto_dist.sh. El script hace:
     Borrar contenido de las carpetas 'build' y 'dist'
@@ -70,7 +71,6 @@ Se crea usando pyinstaller.org
 
 
 # COMO INSTALAR EL PLUGIN
-
 
 ## Via pip3
 Requires python 3.5 or above.
