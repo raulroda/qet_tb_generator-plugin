@@ -64,3 +64,11 @@ sample_projects/achim2/KaNeuDarchau.qet
 src/__pycache__/main.cpython-38.pyc
 src/__pycache__/qetproject.cpython-38.pyc
 .gitignore
+build/run/Analysis-00.toc
+build/run/EXE-00.toc
+build/run/PKG-00.pkg
+build/run/PKG-00.toc
+build/run/PYZ-00.pyz
+build/run/PYZ-00.toc
+build/run/warn-run.txt
+build/run/xref-run.html

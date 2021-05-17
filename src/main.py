@@ -107,7 +107,7 @@ qet_file = ''  # schema file
 # CONSTANTS
 ALL = '-- ALL --'
 THEME = 'SystemDefaultForReal'  # pysimplegui
-VERSION = '1.2.4'
+VERSION = '1.2.5'
 FECHA = 'May, 2020'
 TITLE = 'QET Terminal Block Generator - v{}'.format(VERSION)
 STRIP_LONG = 30
@@ -620,7 +620,7 @@ def load_settings(window):
             for k,v in config.items():
                 window[k].update(v)
     else:
-        set_default_settings()
+        set_default_settings(window)
 
 
 

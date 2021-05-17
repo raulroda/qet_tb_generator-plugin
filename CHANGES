@@ -2,7 +2,10 @@
 
 ToDo: 32bitversion
 
-v1.2.2
+v1.2.5
+  * solved the routine that creates tje config file for the first time
+
+v1.2.4
   * migrated to pysimplegui. 
   * instead of creating tabs for every terminal block, now a list with all tb are
     showed on the left. Allows better experience when exists a lot of them.
