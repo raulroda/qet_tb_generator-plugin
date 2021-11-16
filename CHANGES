@@ -2,6 +2,11 @@
 
 ToDo: 32bitversion
 
+v1.2.7
+  * QET now links cables using ther elements UUID instead of the terminal ID of the elements.
+    Now searches for UUID to discover the cable number, and if is not found, searches for
+    the terminal ID as always.
+
 v1.2.5
   * solved the routine that creates tje config file for the first time
 

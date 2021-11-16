@@ -95,7 +95,7 @@ from functools import cmp_to_key
 #~ import lxml.etree as etree  # python3-lxml
 from operator import itemgetter as i
 
-import PySimpleGUI as sg
+import src.PySimpleGUI as sg
 
 from src.qetproject import QETProject
 from src.terminalblock import TerminalBlock
@@ -107,8 +107,8 @@ qet_file = ''  # schema file
 # CONSTANTS
 ALL = '-- ALL --'
 THEME = 'SystemDefaultForReal'  # pysimplegui
-VERSION = '1.2.5'
-FECHA = 'May, 2020'
+VERSION = '1.3.0'
+FECHA = 'Nov, 2021'
 TITLE = 'QET Terminal Block Generator - v{}'.format(VERSION)
 STRIP_LONG = 30
 SEP = '%'  # separator of info in the metadata field

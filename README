@@ -32,12 +32,12 @@ De cada versión hay que generar:
 https://www.digitalocean.com/community/tutorials/how-to-package-and-distribute-python-applications
 https://packaging.python.org/distributing/
 
-
+ 
 1. Entrar en el contenedor de forma interactiva: sh run_on_docker.sh /bin/bash
 2. Se requiere tener instalado setuptools y twine.
     - sudo pip3 install setuptools
     - sudo apt-get install twine
-3. Actualizar numero de version en setup.py y en run.py para caption del form.
+3. Actualizar numero de version en setup.py y en main.py para caption del form.
 4. Actualizar el fichero CHANGES
 5. Ejecutar auto_dist.sh. El script hace:
     Borrar contenido de las carpetas 'build' y 'dist'

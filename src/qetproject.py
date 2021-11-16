@@ -99,6 +99,8 @@ class QETProject:
         if logo:
             self.original_logo_section = logo
             xml = re.sub(regex_logos, '<logos />', xml, 1)  #replaces first ocurrence
+        else:
+            self.original_logo_section = '<logos/>'
         tmpf = tempfile.NamedTemporaryFile(mode='w', encoding='utf8', delete=False)
         tmpf.write(xml)
         log.info ("Generate temp file {}".format(tmpf.name))
@@ -256,21 +258,37 @@ class QETProject:
         return False
 
 
-    def _getCableNum(self, diagram, terminalId):
+
+    def _getCableNum(self, diagram, terminalId, terminalUUID):
         """Return the cable number connected at 'terminalId' in the page 'diagram'
+
+        New in v1.2.6: To search for the cable num:
+          - Start searching the Terminal's UUID in the 'element1' and 'element2' of conductors.
+          - if not found, search for terminalId in the 'terminal1' and 'terminal2' of conductors
+
+        @param terminalUUID: the UUID of the Terminal Element
         @param diagram: diagram(page) XML etree object
-        @param terminalId: text with the terminal Id
+        @param terminalId: text with the terminal Id of the Terminal Element
         @return: string whith cable  number"""
 
         ret = ''
-        log.debug ("Getting cable number connected to terminal {} at page {}".format ( \
-            terminalId, diagram.attrib['title']))
+        log.debug ("Getting cable number connected to terminal {} at page {} of element {}".format ( \
+            terminalId, diagram.attrib['title'], terminalUUID))
+
+        # Search for the UUID in the conductors element1 and element2. New in v1.2.6
+        for cable in diagram.find('conductors').findall('conductor'):
+            for cable_element in [x for x in cable.attrib if x[:7] == 'element' ]:
+                if cable.attrib[cable_element] == terminalUUID:
+                    return cable.attrib['num']
+
+        # Search for the terminalid of the Terminal Element in the conductor atributes.
         for cable in diagram.find('conductors').findall('conductor'):
             for cable_terminal in \
                     [x for x in cable.attrib if x[:8] == 'terminal' ]:
                 if cable.attrib[cable_terminal] == terminalId:
-                    ret = cable.attrib['num']
+                    return cable.attrib['num']
         return ret
+
 
     
     def _getXRef(self, diagram, element, offset_x = 0, offset_y = 0):
@@ -384,9 +402,9 @@ class QETProject:
                     
                     terminals = element.find('terminals').findall( 'terminal' )
                     terminalId = terminals[0].attrib['id']
-                    cableNum = self._getCableNum(diagram, terminalId)
+                    cableNum = self._getCableNum(diagram, terminalId, element.attrib['uuid'])
                     terminalId2 = terminals[1].attrib['id']
-                    cableNum2 = self._getCableNum(diagram, terminalId2)
+                    cableNum2 = self._getCableNum(diagram, terminalId2, element.attrib['uuid'])
                     if cableNum == '': cableNum = cableNum2
                     
                     el['uuid'] = element.attrib['uuid']
