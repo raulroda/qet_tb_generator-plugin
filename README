@@ -5,72 +5,57 @@ Terminal Block Generator Plugin for Qelectrotech
 
 
 
-# ESTRUCTURA DE DIRECTORIOS
+# DIRECTORY CONTENTS
 
-- <bugs>: recopilación de capturas de pantalla documentos de bugs recogidos del foro Qelectrotech.
-- <dist>: versión autorgenerada para la instalación via pip3 y para version portable
-- <qet_tb_generator.egg-info>: metadatos para la generación de los ficheros de distribución.
-- <sample_projects>: esquemas eléctricos varios con los que hacer pruebas.
-- <scripts>: scripts varios para el desarrollo.
-- <src>: ficheros fuente.
-- <portables>: version portable de la aplicación
-- run.py: ejecución del programa
+- <dist>: distribution versions (pip package and portable versiones)
+- <qet_tb_generator.egg-info>: metadata
+- <sample_projects>: some diagrams for testing
+- <src>: source code
+- run.py: launch the app
 
 
 
-# CREACION DE LOS EJECUTABLES
-
-De cada versión hay que generar:
-- Versión instalable via pip3
-- Versión portable para Windows
-- Versión portable para Linux
+# HOW TO CREATE THE DISTRIBUTION PACKAGES
 
 
+## PIP3 package
 
-## Creacion paquete con distutils
-
-https://www.digitalocean.com/community/tutorials/how-to-package-and-distribute-python-applications
+Doc: https://www.digitalocean.com/community/tutorials/how-to-package-and-distribute-python-applications
 https://packaging.python.org/distributing/
 
  
-1. Entrar en el contenedor de forma interactiva: sh run_on_docker.sh /bin/bash
-2. Se requiere tener instalado setuptools y twine.
+1. requirements:
     - sudo pip3 install setuptools
     - sudo apt-get install twine
-3. Actualizar numero de version en setup.py y en main.py para caption del form.
-4. Actualizar el fichero CHANGES
-5. Ejecutar auto_dist.sh. El script hace:
-    Borrar contenido de las carpetas 'build' y 'dist'
-    actualizar CHANGES
-    Crear distibucion: python3 setup.py sdist
-    Crear wheel para pip: python3 setup.py bdist_wheel
-    Subirlo : twine upload dist/*
-6. Para comprobar si un paquete está instalado: 
-    pip3 list : muestra todos
-    pip3 show qet_tb_generator : muestra info de un paquete y donde esta instalado
+2. Update version number in setup.py and main.py
+3. Update CHANGES file
+4. Execute auto_dist.sh. The script does:
+    - Delete content of 'build' and 'dist' folders
+    - Create distribution: python3 setup.py sdist
+    - Create wheel for pip: python3 setup.py bdist_wheel
+    - Twine uploads of dist/*
+5. To check if a package is installed:
+    pip3 list : show all
+    pip3 show qet_tb_generator : shows package info and where is installed
 
 
 
-## Creación de versión portable para Windows
-Se crea usando pyinstaller.org
-1. Instalar python 3.6.8
-2. Instalar pyinstaller: python -m pip install PyInstaller
-3. Ejecutar: pyinstaller --onefile --windowed run.py
-4. Renombrar: run.exe a qet_tb_generator.exe
-5. Accesible desde https://download.tuxfamily.org/qet/builds/
-6. Enviar mail a laurent Trinques (scorpio@qelectrotech.org) adjuntando el portable
+## Windows portable version
+Creates using pyinstaller.org
+1. Check if python vesion is  3.6.8 or newer
+2. Install pyinstaller: python -m pip install PyInstaller
+3. Execute: pyinstaller --onefile --windowed run.py
+4. Rename: run.exe to qet_tb_generator_v???.exe
 
 
-## Creación de versión portable para Linux
-Se crea usando pyinstaller.org
-1. Entrar en el contenedor de forma interactiva: sh run_on_docker.sh /bin/bash
-2. Ejecutar: pyinstaller --onefile --windowed run.py
-3. Renombrar: mv ./dist/run ./dist/qet_tb_generator
-4. Accesible desde https://download.tuxfamily.org/qet/builds/
+## Linux portable version
+Creates using pyinstaller.org
+1. Execute: pyinstaller --onefile --windowed run.py
+2. Rename: mv ./dist/run ./dist/qet_tb_generator_v???.exe
 
 
 
-# COMO INSTALAR EL PLUGIN
+# How to install the QET terminal generator plugin
 
 ## Via pip3
 Requires python 3.5 or above.
@@ -94,17 +79,14 @@ python -m pip install --upgrade qet_tb_generator
 
 
 
-
 ## Portable Linux
 
-Copy the plugin portable file to the same folder that the AppImage version of Qelectrotech:
-  1. Download the desired QET portable version from https://download.tuxfamily.org/qet/builds/AppImage/
-  2. Mark as executable (help here:  https://discourse.appimage.org/t/how-to … -appimage/).
-  3. Download the plugin portable file from https://download.tuxfamily.org/qet/buil … tor_linux/
-  4. Rename to "qet_tb_generator" if it has another file name.
-  5. Mark "qet_tb_generator" as executable too.
-  6. Copy to the same folder that the QET appimage is.
-  7. Launch the plugin from the "Project" menu of QET
+Copy the plugin portable file to the same folder that the QET AppImage is:
+  1. Download the the plugin from https://github.com/raulroda/qet_tb_generator-plugin/tree/master/dist
+  2. Rename to "qet_tb_generator" if it has another filename.
+  3. Mark "qet_tb_generator" as executable
+  4. Copy to the same folder that the QET appimage is.
+  5. Launch the plugin from the "Project" menu of QET
 
 If you have some problem launche the plugin from QET, add the directory where the AppImage is to the PATH. Example if the directory is "/home/<your_user_name>/bin", edit the "~/.bashrc" file adding:
      export PATH="/home/$USER/bin:$PATH"
@@ -116,13 +98,8 @@ If you are not using the portable version of QET, copy the plugin portable file 
 ## Portable WINDOWS
 
 Copy the plugin portable file to the same readytouse folder of QET
-  1. Download the desired QET portable version from https://download.tuxfamily.org/qet/builds/nightly/
-  2. Uncompress
-  3. Download the plugin portable file from https://download.tuxfamily.org/qet/buil … rator_win/
-  4. Rename to "qet_tb_generator.exe" if it has another file name.
-  5. Copy "qet_tb_generator.exe" inside the descompressed folder of QET (point 2)
-  6. Launch the plugin from the "Project" menu of QET
-
-
-
+  1. Download the plugin portable file from https://github.com/raulroda/qet_tb_generator-plugin/tree/master/dist
+  2. Rename to "qet_tb_generator.exe" if it has another file name.
+  3. Copy "qet_tb_generator.exe" inside the descompressed folder of QET
+  4. Launch the plugin from the "Project" menu of QET
 
