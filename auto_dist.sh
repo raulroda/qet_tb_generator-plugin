@@ -1,5 +1,6 @@
 #!/bin/bash
-rm -rf ./dist/*
+rm -rf ./dist/*.whl
+rm -rf ./dist/*.tar.gz
 rm -rf ./build/*
 
 python3 setup.py sdist
