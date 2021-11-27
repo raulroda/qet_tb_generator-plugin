@@ -1,6 +1,10 @@
 # Changelog
 
-ToDo: 32bitversion
+
+v1.3.1
+  * Sometime the XML <logo> tag of the diagram is not correctly formed. If exists a <logo> tag,
+    removes it, generate the XML inserting que  Terminal blocks, and finally add the original
+    tag again. It no logo is defined, do nothing.
 
 v1.2.7
   * QET now links cables using ther elements UUID instead of the terminal ID of the elements.

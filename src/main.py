@@ -107,7 +107,7 @@ qet_file = ''  # schema file
 # CONSTANTS
 ALL = '-- ALL --'
 THEME = 'SystemDefaultForReal'  # pysimplegui
-VERSION = '1.3.0'
+VERSION = '1.3.1'
 FECHA = 'Nov, 2021'
 TITLE = 'QET Terminal Block Generator - v{}'.format(VERSION)
 STRIP_LONG = 30

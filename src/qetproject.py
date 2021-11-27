@@ -100,7 +100,7 @@ class QETProject:
             self.original_logo_section = logo
             xml = re.sub(regex_logos, '<logos />', xml, 1)  #replaces first ocurrence
         else:
-            self.original_logo_section = '<logos/>'
+            self.original_logo_section = ''
         tmpf = tempfile.NamedTemporaryFile(mode='w', encoding='utf8', delete=False)
         tmpf.write(xml)
         log.info ("Generate temp file {}".format(tmpf.name))
