@@ -126,16 +126,16 @@ CONFIG_UI_INPUT_FIELDS_KEYS = [ '-CFG_SPLIT-', '-CFG_A-', '-CFG_B-', '-CFG_C-', 
 # - Edit: True to create a Input instead of a Text
 # - Disabled: True to disable events
 TABLE = [
-    {'col':0, 'text':'ORDER', 'size':8, 'edit': False, 'disabled': False, 'key': '', 'tip': 'Click to move up/down the terminal'},  # UP/DW buttons
-    {'col':1 , 'text':'POS.', 'size':6, 'edit': False, 'disabled': True, 'key': 'terminal_pos', 'tip': 'Position of the terminal in the terminal-block'},
-    {'col':2 , 'text':'BLOCK', 'size':10, 'edit': False, 'disabled': True, 'key': 'block_name', 'tip': "Terminal-block's name (comes from the schema)"},
-    {'col':3 , 'text':'ID', 'size':8, 'edit': False, 'disabled': True, 'key': 'terminal_name', 'tip': "Terminal's label (comes from the schema)"},
-    {'col':4 , 'text':'XREF', 'size':9, 'edit': False, 'disabled': True, 'key': 'terminal_xref', 'tip': "Terminal's place (comes from the schema)"},
-    {'col':5 , 'text':'CABLE', 'size':10, 'edit': False, 'disabled': True, 'key': 'cable', 'tip': "Cable's name connected to the terminal (comes from the schema)"},
-    {'col':6 , 'text':'BRIDGE?', 'size':8, 'edit': False, 'disabled': False, 'key': 'bridge', 'tip': 'If selected, a bridge will be drawn between the terminal and the next one'},
-    {'col':7 , 'text':'TYPE', 'size':11, 'edit': False, 'disabled': False, 'key': 'terminal_type', 'tip': 'Defines the graphical representation of the terminal'},
-    {'col':8 , 'text':'HOSE', 'size':18, 'edit': True, 'disabled': False, 'key': 'hose', 'tip': "Hose's name the conductor belongs to. Several terminals can share hose (i.e. -W1, -WXL12,...)"},
-    {'col':9 , 'text':'CONDUCTOR', 'size':14, 'edit': True, 'disabled': False, 'key': 'conductor', 'tip': "Conductor's name of the hose (i.e. 1, br, yellow, ...)"}
+    {'col':0, 'text':'ORDER', 'size':8, 'sortable': False, 'edit': False, 'disabled': False, 'key': '', 'tip': 'Click to move up/down the terminal'},  # UP/DW buttons
+    {'col':1 , 'text':'POS.', 'size':6, 'sortable': False, 'edit': False, 'disabled': True, 'key': 'terminal_pos', 'tip': 'Position of the terminal in the terminal-block'},
+    {'col':2 , 'text':'BLOCK', 'size':10, 'sortable': False, 'edit': False, 'disabled': True, 'key': 'block_name', 'tip': "Terminal-block's name (comes from the schema)"},
+    {'col':3 , 'text':'ID', 'size':8, 'sortable': True, 'edit': False, 'disabled': True, 'key': 'terminal_name', 'tip': "Terminal's label (comes from the schema)"},
+    {'col':4 , 'text':'XREF', 'size':9, 'sortable': True, 'edit': False, 'disabled': True, 'key': 'terminal_xref', 'tip': "Terminal's place (comes from the schema)"},
+    {'col':5 , 'text':'CABLE', 'size':10, 'sortable': True, 'edit': False, 'disabled': True, 'key': 'cable', 'tip': "Cable's name connected to the terminal (comes from the schema)"},
+    {'col':6 , 'text':'BRIDGE?', 'size':8, 'sortable': False, 'edit': False, 'disabled': False, 'key': 'bridge', 'tip': 'If selected, a bridge will be drawn between the terminal and the next one'},
+    {'col':7 , 'text':'TYPE', 'size':11, 'sortable': False, 'edit': False, 'disabled': False, 'key': 'terminal_type', 'tip': 'Defines the graphical representation of the terminal'},
+    {'col':8 , 'text':'HOSE', 'size':18, 'sortable': False, 'edit': True, 'disabled': False, 'key': 'hose', 'tip': "Hose's name the conductor belongs to. Several terminals can share hose (i.e. -W1, -WXL12,...)"},
+    {'col':9 , 'text':'CONDUCTOR', 'size':14, 'sortable': False, 'edit': True, 'disabled': False, 'key': 'conductor', 'tip': "Conductor's name of the hose (i.e. 1, br, yellow, ...)"}
 ]
 
 HELP = """
@@ -513,6 +513,90 @@ def filter_terminals(window, tb_names, max_index_row):
 
 
 
+def normalize_label(label):
+    """
+    Normalize a typical terminal label so strings such as 'A12B' are
+    converted into `['A', 12, 'B']` and compared in a predictable way.
+
+    @param label: the string to convert
+    @return the normalized array
+    """
+
+    items = re.split('([0-9]+)', label)
+    return [int(i) if i.isdigit() else i for i in items]
+
+
+
+def compare_lists(l1, l2):
+    """
+    Compare two lists. Unfortunately directly using the comparison
+    operators fails when the lists have items of different types,
+    e.g. the following expression fails with TypeError:
+
+        [1, 'a'] > ['a', 1]
+
+    @param l1: first list
+    @param l2: second list
+    @return -1 if l1 < l2, 0 if l1 == l2, +1 if l1 > l2
+    """
+
+    for a, b in zip(l1, l2):
+        a_string = isinstance(a, str)
+        b_string = isinstance(b, str)
+        if a_string and not b_string:
+            return -1
+        elif b_string and not a_string:
+            return +1
+        elif a < b:
+            return -1
+        elif a > b:
+            return +1
+    return 0
+
+
+
+def sort_terminals_block(window, col, start, stop):
+    """
+    Sort a set of terminals in the same block.
+
+    @param start: starting row
+    @param end: ending row
+    @param col: number of column to use for sorting
+    """
+
+    criteria = '-{}/{{}}-'.format(col)
+    # Sorting with a bubble sort so `move_terminal_up` can be reused
+    for limit in range(stop, start + 1, -1):
+        last = False
+        for n in range(start, limit):
+            value = normalize_label(window[criteria.format(n)].get())
+            if last and compare_lists(last, value) > 0:
+                move_terminal_up(window, row = n)
+            else:
+                last = value
+
+
+
+def sort_terminals(window, col, max_index_row):
+    """
+    Sort all terminals.
+
+    @param col: number of column to use for sorting
+    """
+
+    block = False
+    for n in range(max_index_row):
+        current_block = window['-2/{}-'.format(n)].get()
+        if block != current_block:
+            # Sort the pending block, if any
+            if block:
+                sort_terminals_block(window, col, start, n)
+            # Switch to the new block
+            block = current_block
+            start = n
+
+
+
 def header_cell(col):
     """
     Customized control for the table header
@@ -581,7 +665,8 @@ def table_cell(col, row, text = '', metadata='', bgcolor=0):
                 pad=(0,0)
         )
     else:  # no editable field or table header
-        disabled = TABLE[col]['disabled'] or row=='HEAD'
+        disabled = row == 'HEAD' and not TABLE[col]['sortable'] or \
+                   row != 'HEAD' and TABLE[col]['disabled']
         return sg.Text( text=text, \
             enable_events=not disabled, \
             relief= 'raised', \
@@ -889,6 +974,10 @@ def main():
                         [sg.Image(data = LEGEND_PICTURE)],
                         [sg.B('OK')]
                         ]).read(close=True)
+
+        elif event.endswith('HEAD-'):  # sorting terminals
+            col = event[1:2]
+            sort_terminals(window, col, max_index_row = len(qet_project.terminals))
 
         elif event.startswith('-UP'):  # move terminal up
             row =  event[3:-1]
