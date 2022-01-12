@@ -132,7 +132,7 @@ TABLE = [
     {'col':3 , 'text':'ID', 'size':8, 'edit': False, 'disabled': True, 'key': 'terminal_name', 'tip': "Terminal's label (comes from the schema)"},
     {'col':4 , 'text':'XREF', 'size':9, 'edit': False, 'disabled': True, 'key': 'terminal_xref', 'tip': "Terminal's place (comes from the schema)"},
     {'col':5 , 'text':'CABLE', 'size':10, 'edit': False, 'disabled': True, 'key': 'cable', 'tip': "Cable's name connected to the terminal (comes from the schema)"},
-    {'col':6 , 'text':'BRIGE?', 'size':8, 'edit': False, 'disabled': False, 'key': 'bridge', 'tip': 'If selected, a bridge will be drawn between the terminal and the next one'},
+    {'col':6 , 'text':'BRIDGE?', 'size':8, 'edit': False, 'disabled': False, 'key': 'bridge', 'tip': 'If selected, a bridge will be drawn between the terminal and the next one'},
     {'col':7 , 'text':'TYPE', 'size':11, 'edit': False, 'disabled': False, 'key': 'terminal_type', 'tip': 'Defines the graphical representation of the terminal'},
     {'col':8 , 'text':'HOSE', 'size':18, 'edit': True, 'disabled': False, 'key': 'hose', 'tip': "Hose's name the conductor belongs to. Several terminals can share hose (i.e. -W1, -WXL12,...)"},
     {'col':9 , 'text':'CONDUCTOR', 'size':14, 'edit': True, 'disabled': False, 'key': 'conductor', 'tip': "Conductor's name of the hose (i.e. 1, br, yellow, ...)"}
