@@ -22,7 +22,7 @@ except ImportError:
     from terminalblock import TerminalBlock
 
 # --- CONSTANTS ---
-VERSION = '2.0.1'
+VERSION = '2.0.2'
 TITLE = 'QET Terminal Block Generator - v{} (CustomTkinter)'.format(VERSION)
 CONFIG_FILE = 'qet_tb_generator.json'
 DEBUG_MODE = False  # Set to True to enable bridge_debug.txt logging

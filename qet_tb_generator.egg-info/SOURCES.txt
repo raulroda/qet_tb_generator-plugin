@@ -9,6 +9,7 @@ qet_tb_generator.egg-info/dependency_links.txt
 qet_tb_generator.egg-info/entry_points.txt
 qet_tb_generator.egg-info/requires.txt
 qet_tb_generator.egg-info/top_level.txt
+src/__init__.py
 src/main.py
 src/qetproject.py
 src/terminalblock.py

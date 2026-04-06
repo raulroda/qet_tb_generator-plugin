@@ -5,7 +5,7 @@ from os import path
 
 setup(
     name="qet_tb_generator",
-    version="2.0.1",
+    version="2.0.2",
     description="Script that generates terminal blocks & connectors for QElectroTech",
     long_description = """Allows to generate terminal blocks and connectors for QElectroTech electrical diagram software.""",
     author="Raul Roda",
@@ -20,7 +20,7 @@ setup(
 
                                        #name_of_executable = folder.module:function_to_execute
     entry_points={'console_scripts': ['qet_tb_generator=src.main:main']},
-    install_requires=['customtkinter'],
+    install_requires=['customtkinter', 'Pillow'],
     keywords='qelectrotech terminal block electric',
 
     classifiers=[

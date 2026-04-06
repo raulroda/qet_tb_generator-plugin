@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: qet_tb_generator
-Version: 2.0.0
+Version: 2.0.2
 Summary: Script that generates terminal blocks & connectors for QElectroTech
 Author: Raul Roda
 Author-email: raulroda8@gmail.com
@@ -18,6 +18,7 @@ Classifier: Natural Language :: English
 Classifier: Topic :: Scientific/Engineering
 License-File: LICENSE.txt
 Requires-Dist: customtkinter
+Requires-Dist: Pillow
 Dynamic: author
 Dynamic: author-email
 Dynamic: classifier
